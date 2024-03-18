@@ -124,7 +124,7 @@ void Tasks::Init() {
         cerr << "Error task create: " << strerror(-err) << endl << flush;
         exit(EXIT_FAILURE);
     }
-    if (err = rt_task_create(&th_move, "th_batteryLevel", 0, PRIORITY_TBATTERY, 0)) {
+    if (err = rt_task_create(&th_batteryLevel, "th_batteryLevel", 0, PRIORITY_TBATTERY, 0)) {
         cerr << "Error task create: " << strerror(-err) << endl << flush;
         exit(EXIT_FAILURE);
     }
