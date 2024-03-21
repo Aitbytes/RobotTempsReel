@@ -463,7 +463,7 @@ void Tasks::BatteryLevel(void *arg) {
 
 Message * Tasks::CheckCommunicationAndReturnMessage(Message * msgRcv){
     static int error_count = 0;  
-    if (msgRcv == MESSAGE_ANSWER_NACK || MESSAGE_ANSWER_ROBOT_TIMEOUT || MESSAGE_ANSWER_ROBOT_UNKNOWN_COMMAND || MESSAGE_ANSWER_ROBOT_ERROR || MESSAGE_ANSWER_COM_ERROR) {
+    if (msgRcv->GetID() == MESSAGE_ANSWER_NACK || MESSAGE_ANSWER_ROBOT_TIMEOUT || MESSAGE_ANSWER_ROBOT_UNKNOWN_COMMAND || MESSAGE_ANSWER_ROBOT_ERROR || MESSAGE_ANSWER_COM_ERROR) {
         error_count++;
     } else {
         error_count = 0;
