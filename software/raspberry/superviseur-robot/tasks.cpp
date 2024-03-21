@@ -463,20 +463,21 @@ void Tasks::BatteryLevel(void *arg) {
 
 Message * Tasks::CheckCommunicationAndReturnMessage(Message * msgRcv){
     static int error_count = 0;  
-    if (msgRcv->GetID() == MESSAGE_ANSWER_NACK || 
-    msgRcv->GetID() == MESSAGE_ANSWER_ROBOT_TIMEOUT || 
-    msgRcv->GetID() == MESSAGE_ANSWER_ROBOT_UNKNOWN_COMMAND || 
-    msgRcv->GetID() == MESSAGE_ANSWER_ROBOT_ERROR || 
-    msgRcv->GetID() == MESSAGE_ANSWER_COM_ERROR) {
+    MessageID mesRcvID = msgRcv->GetID();
+    if (mesRcvID == MESSAGE_ANSWER_NACK || 
+    mesRcvID == MESSAGE_ANSWER_ROBOT_TIMEOUT || 
+    mesRcvID == MESSAGE_ANSWER_ROBOT_UNKNOWN_COMMAND || 
+    mesRcvID == MESSAGE_ANSWER_ROBOT_ERROR || 
+    mesRcvID == MESSAGE_ANSWER_COM_ERROR) {
         error_count++;
-        printf("Communication error n°%d \n", error_count);
+        printf("Error message : %d | Communication error n°%d \n", mesRcvID, error_count);
         
     } else {
         error_count = 0;
-        printf("Communication reset succesfully\n", error_count);
+        printf("Communication reset successfully\n", error_count);
     }
     if (error_count >= 3){
-        printf("Too many errors, stoping communication\n");
+        printf("Too many errors, stopping communication\n");
         rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
         robotStarted = 0;
         rt_mutex_release(&mutex_robotStarted);
