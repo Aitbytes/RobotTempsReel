@@ -28,7 +28,7 @@
 #define PRIORITY_TCAMERA 21
 #define PRIORITY_TBATTERY 15
 
-#define ERROR_LIMIT 15
+#define ERROR_LIMIT 3
 
 /*
  * Some remarks:
@@ -469,7 +469,6 @@ Message * Tasks::CheckCommunicationAndReturnMessage(Message * msgRcv){
     if (mesRcvID == MESSAGE_ANSWER_NACK || 
     mesRcvID == MESSAGE_ANSWER_ROBOT_TIMEOUT || 
     mesRcvID == MESSAGE_ANSWER_ROBOT_UNKNOWN_COMMAND || 
-    mesRcvID == MESSAGE_ANSWER_ROBOT_ERROR || 
     mesRcvID == MESSAGE_ANSWER_COM_ERROR) {
         error_count++;
         printf("Error message : %d | Communication error n°%d \n", mesRcvID, error_count);
