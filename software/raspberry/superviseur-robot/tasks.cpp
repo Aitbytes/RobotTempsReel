@@ -453,7 +453,7 @@ void Tasks::BatteryLevel(void *arg) {
             msgSend = CheckCommunicationAndReturnMessage(robot.Write(robot.GetBattery()));
             rt_mutex_release(&mutex_robot);
 
-            cout << "Current level of batterie : " << msgSend->ToString() << endl << flush;
+            cout << "Current level of battery : " << msgSend->ToString() << endl << flush;
 
             WriteInQueue(&q_messageToMon, msgSend);
         }
@@ -465,10 +465,13 @@ Message * Tasks::CheckCommunicationAndReturnMessage(Message * msgRcv){
     static int error_count = 0;  
     if (msgRcv->GetID() == MESSAGE_ANSWER_NACK || MESSAGE_ANSWER_ROBOT_TIMEOUT || MESSAGE_ANSWER_ROBOT_UNKNOWN_COMMAND || MESSAGE_ANSWER_ROBOT_ERROR || MESSAGE_ANSWER_COM_ERROR) {
         error_count++;
+        printf("Communication error n°%d \n", error_count);
+        
     } else {
         error_count = 0;
     }
     if (error_count == 3){
+        printf("Too many errors, stoping communication\n");
         rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
         robotStarted = 0;
         rt_mutex_release(&mutex_robotStarted);
