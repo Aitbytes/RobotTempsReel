@@ -470,7 +470,7 @@ Message * Tasks::CheckCommunicationAndReturnMessage(Message * msgRcv){
     } else {
         error_count = 0;
     }
-    if (error_count == 3){
+    if (error_count >= 3){
         printf("Too many errors, stoping communication\n");
         rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
         robotStarted = 0;
