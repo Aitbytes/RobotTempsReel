@@ -473,6 +473,7 @@ Message * Tasks::CheckCommunicationAndReturnMessage(Message * msgRcv){
         
     } else {
         error_count = 0;
+        printf("Communication reset succesfully\n", error_count);
     }
     if (error_count >= 3){
         printf("Too many errors, stoping communication\n");
