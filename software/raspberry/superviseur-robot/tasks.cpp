@@ -455,9 +455,7 @@ void Tasks::BatteryLevel(void *arg) {
 
             cout << "Current level of batterie : " << msgSend->ToString() << endl << flush;
 
-            rt_mutex_acquire(&mutex_monitor, TM_INFINITE);
             WriteInQueue(&q_messageToMon, msgSend);
-            rt_mutex_release(&mutex_monitor);
         }
         
     }      
