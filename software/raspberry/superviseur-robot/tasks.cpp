@@ -28,6 +28,8 @@
 #define PRIORITY_TCAMERA 21
 #define PRIORITY_TBATTERY 15
 
+#define ERROR_LIMIT 15
+
 /*
  * Some remarks:
  * 1- This program is mostly a template. It shows you how to create tasks, semaphore
@@ -476,7 +478,7 @@ Message * Tasks::CheckCommunicationAndReturnMessage(Message * msgRcv){
         error_count = 0;
         printf("Communication reset successfully\n", error_count);
     }
-    if (error_count >= 3){
+    if (error_count >= ERROR_LIMIT){
         printf("Too many errors, stopping communication\n");
         rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
         robotStarted = 0;
