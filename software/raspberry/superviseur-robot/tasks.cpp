@@ -469,7 +469,9 @@ Message * Tasks::CheckCommunicationAndReturnMessage(Message * msgRcv){
         error_count = 0;
     }
     if (error_count == 3){
-        Tasks::Stop();
+        rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
+        robotStarted = 0;
+        rt_mutex_release(&mutex_robotStarted);
     } 
     return msgRcv;
 }
