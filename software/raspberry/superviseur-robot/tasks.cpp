@@ -397,7 +397,7 @@ void Tasks::MoveTask(void *arg) {
 
     while (1) {
         rt_task_wait_period(NULL);
-        cout << "Periodic movement update";
+        //cout << "Periodic movement update";
         rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
         rs = robotStarted;
         rt_mutex_release(&mutex_robotStarted);
@@ -467,7 +467,7 @@ void Tasks::BatteryLevel(void *arg) {
 
     while (1) {
         rt_task_wait_period(NULL);
-        cout << "Periodic battery update" << endl << flush;
+        //cout << "Periodic battery update" << endl << flush;
         rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
         rs = robotStarted;
         rt_mutex_release(&mutex_robotStarted);
@@ -485,6 +485,35 @@ void Tasks::BatteryLevel(void *arg) {
     }      
 }
 
+void Tasks::SendPictures(void *arg) {
+    int rs;
+    Message * msgSend;
+    
+    cout << "Start " << __PRETTY_FUNCTION__ << endl << flush;
+    // Synchronization barrier (waiting that all tasks are starting)
+    rt_sem_p(&sem_barrier, TM_INFINITE);
+    
+    /**************************************************************************************/
+    /* The task starts here                                                               */
+    /**************************************************************************************/
+    rt_task_set_periodic(NULL, TM_NOW, 150000000);
+
+    while (1) {
+        rt_task_wait_period(NULL);
+
+        rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
+        rs = robotStarted;
+        rt_mutex_release(&mutex_robotStarted);
+       
+        if (rs == 1) {
+            Img * img = new Img(cam->Grab());
+            MessageImg *msgImg = new MessageImg(MESSAGE_CAM_IMAGE, img);
+
+            WriteInQueue(&q_messageToMon, msgSend);
+        }
+        
+    }      
+}
 /**
  * Surveillance de la communication robot-superviseur
  * Mettre en place un compteur, +1 si échec sur l'envoi d'un message et =0 à chaque succès
