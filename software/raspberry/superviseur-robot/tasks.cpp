@@ -463,7 +463,12 @@ void Tasks::BatteryLevel(void *arg) {
     }      
 }
 
-Message * Tasks::CheckCommunicationAndReturnMessage(Message * msgRcv){
+/**
+ * Surveillance de la communication robot-superviseur
+ * Mettre en place un compteur, +1 si échec sur l'envoi d'un message et =0 à chaque succès
+ * Si communication entre robot et superviseur est perdue, ferme le communication
+*/
+Message * Tasks::CloseCommunicationRobot(Message * msgRcv){
     static int error_count = 0;  
     MessageID mesRcvID = msgRcv->GetID();
     if (mesRcvID == MESSAGE_ANSWER_NACK || 
@@ -479,10 +484,13 @@ Message * Tasks::CheckCommunicationAndReturnMessage(Message * msgRcv){
     }
     if (error_count >= ERROR_LIMIT){
         printf("Too many errors, stopping communication\n");
+        Message *msgSend = new Message(MESSAGE_ROBOT_LOST);
+        WriteInQueue(&q_messageToMon, msgSend);
         rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
         robotStarted = 0;
         rt_mutex_release(&mutex_robotStarted);
     } 
     return msgRcv;
 }
+
 
