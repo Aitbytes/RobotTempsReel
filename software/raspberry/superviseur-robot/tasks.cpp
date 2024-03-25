@@ -290,6 +290,15 @@ void Tasks::ReceiveFromMonTask(void *arg) {
                 Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
                 WriteInQueue(&q_messageToMon, msgSend);
             }
+        } else if (msgRcv->CompareID(MESSAGE_CAM_CLOSE)) {
+            
+            if (cam->Close()) {
+                Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
+                WriteInQueue(&q_messageToMon, msgSend);
+            } else {
+                Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
+                WriteInQueue(&q_messageToMon, msgSend);
+            }
         } else if (msgRcv->CompareID(MESSAGE_ROBOT_GO_FORWARD) ||
                 msgRcv->CompareID(MESSAGE_ROBOT_GO_BACKWARD) ||
                 msgRcv->CompareID(MESSAGE_ROBOT_GO_LEFT) ||
