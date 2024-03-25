@@ -282,7 +282,7 @@ void Tasks::ReceiveFromMonTask(void *arg) {
             rt_sem_v(&sem_startRobot);
         } else if (msgRcv->CompareID(MESSAGE_CAM_OPEN)) {
             
-            if (this->cam->Open()) {
+            if (this->cam.Open()) {
                 Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
                 WriteInQueue(&q_messageToMon, msgSend);
             } else {
@@ -290,8 +290,8 @@ void Tasks::ReceiveFromMonTask(void *arg) {
                 WriteInQueue(&q_messageToMon, msgSend);
             }
         } else if (msgRcv->CompareID(MESSAGE_CAM_CLOSE)) {
-            this->cam->Close();
-            if (this->cam->IsOpen()) {
+            this->cam.Close();
+            if (this->cam.IsOpen()) {
                 Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
                 WriteInQueue(&q_messageToMon, msgSend);
             } else {
