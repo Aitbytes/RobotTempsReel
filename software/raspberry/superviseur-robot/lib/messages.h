@@ -79,8 +79,6 @@ typedef enum {
     MESSAGE_ROBOT_STATE_GET,
     MESSAGE_ROBOT_STATE_NOT_BUSY,
     MESSAGE_ROBOT_STATE_BUSY,
-
-    MESSAGE_ROBOT_LOST
 } MessageID;
 
 typedef enum {

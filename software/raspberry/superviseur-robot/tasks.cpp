@@ -484,7 +484,7 @@ Message * Tasks::CloseCommunicationRobot(Message * msgRcv){
     }
     if (error_count >= ERROR_LIMIT){
         printf("Too many errors, stopping communication\n");
-        Message *msgSend = new Message(MESSAGE_ROBOT_LOST);
+        Message *msgSend = new Message(MESSAGE_MONITOR_LOST);
         WriteInQueue(&q_messageToMon, msgSend);
         rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
         robotStarted = 0;
