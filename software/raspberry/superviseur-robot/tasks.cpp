@@ -268,7 +268,7 @@ void Tasks::ReceiveFromMonTask(void *arg) {
     rt_sem_p(&sem_serverOk, TM_INFINITE);
     cout << "Received message from monitor activated" << endl << flush;
 
-    Camera cam = new Camera();
+    Camera* cam = new Camera();
 
     while (1) {
         msgRcv = monitor.Read();
