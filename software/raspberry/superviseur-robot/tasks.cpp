@@ -16,6 +16,7 @@
  */
 
 #include "tasks.h"
+#include "lib/camera.h"
 #include "lib/messages.h"
 #include <stdexcept>
 
@@ -267,6 +268,8 @@ void Tasks::ReceiveFromMonTask(void *arg) {
     rt_sem_p(&sem_serverOk, TM_INFINITE);
     cout << "Received message from monitor activated" << endl << flush;
 
+    Camera cam = new Camera();
+
     while (1) {
         msgRcv = monitor.Read();
         cout << "Rcv <= " << msgRcv->ToString() << endl << flush;
@@ -279,11 +282,12 @@ void Tasks::ReceiveFromMonTask(void *arg) {
         } else if (msgRcv->CompareID(MESSAGE_ROBOT_START_WITHOUT_WD)) {
             rt_sem_v(&sem_startRobot);
         } else if (msgRcv->CompareID(MESSAGE_CAM_OPEN)) {
-            if (Camera::Open()) {
+            
+            if (cam::Open()) {
                 Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
                 WriteInQueue(&q_messageToMon, msgSend);
             } else {
-                Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
+                Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
                 WriteInQueue(&q_messageToMon, msgSend);
             }
         } else if (msgRcv->CompareID(MESSAGE_ROBOT_GO_FORWARD) ||
