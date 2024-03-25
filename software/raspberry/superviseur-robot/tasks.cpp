@@ -16,6 +16,7 @@
  */
 
 #include "tasks.h"
+#include "lib/messages.h"
 #include <stdexcept>
 
 // Déclaration des priorités des taches
@@ -277,6 +278,14 @@ void Tasks::ReceiveFromMonTask(void *arg) {
             rt_sem_v(&sem_openComRobot);
         } else if (msgRcv->CompareID(MESSAGE_ROBOT_START_WITHOUT_WD)) {
             rt_sem_v(&sem_startRobot);
+        } else if (msgRcv->CompareID(MESSAGE_CAM_OPEN)) {
+            if (Camera::Open()) {
+                Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
+                WriteInQueue(&q_messageToMon, msgSend);
+            } else {
+                Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
+                WriteInQueue(&q_messageToMon, msgSend);
+            }
         } else if (msgRcv->CompareID(MESSAGE_ROBOT_GO_FORWARD) ||
                 msgRcv->CompareID(MESSAGE_ROBOT_GO_BACKWARD) ||
                 msgRcv->CompareID(MESSAGE_ROBOT_GO_LEFT) ||
