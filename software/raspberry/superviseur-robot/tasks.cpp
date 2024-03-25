@@ -283,7 +283,7 @@ void Tasks::ReceiveFromMonTask(void *arg) {
             rt_sem_v(&sem_startRobot);
         } else if (msgRcv->CompareID(MESSAGE_CAM_OPEN)) {
             
-            if (cam::Open()) {
+            if (cam->Open()) {
                 Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
                 WriteInQueue(&q_messageToMon, msgSend);
             } else {
