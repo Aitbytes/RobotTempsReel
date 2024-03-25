@@ -63,7 +63,8 @@ const string MESSAGE_ID_STRING[] = {
     "Robot get state",
     "Robot current state",
     "Robot state [Not busy]",
-    "Robot state [Busy]"
+    "Robot state [Busy]",
+    "Communication lost with Robot"
 };
 
 /*
