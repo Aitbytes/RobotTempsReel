@@ -57,7 +57,10 @@
  */
 void Tasks::Init() {
     int status;
+
     int err;
+
+    this->cam = new Camera(captureSize::sm,25);
 
     /**************************************************************************************/
     /* 	Mutex creation                                                                    */
@@ -513,10 +516,10 @@ void Tasks::SendPictures(void *arg) {
         rt_mutex_release(&mutex_robotStarted);
        
         if (rs == 1) {
-            Img * img = new Img(this->cam.Grab());
-            MessageImg *msgImg = new MessageImg(MESSAGE_CAM_IMAGE, img);
-
-            WriteInQueue(&q_messageToMon, msgSend);
+            // Img * img = new Img(this->cam.Grab());
+            // MessageImg *msgImg = new MessageImg(MESSAGE_CAM_IMAGE, img);
+            //
+            // WriteInQueue(&q_messageToMon, msgSend);
         }
         
     }      
