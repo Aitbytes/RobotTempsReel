@@ -160,7 +160,7 @@ private:
      * Verify if a communication is successful
      * If 3 times unsuccess, return error
     */
-    Message *CheckCommunicationAndReturnMessage(Message * msgRcv);
+    Message *CloseCommunicationRobot(Message * msgRcv);
 
 };
 
