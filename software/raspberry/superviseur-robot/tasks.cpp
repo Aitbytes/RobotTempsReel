@@ -290,7 +290,7 @@ void Tasks::ReceiveFromMonTask(void *arg) {
             }
         } else if (msgRcv->CompareID(MESSAGE_CAM_CLOSE)) {
             this->cam->Close();
-            if (this->cam->isOpen()) {
+            if (this->cam->IsOpen()) {
                 Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
                 WriteInQueue(&q_messageToMon, msgSend);
             } else {
