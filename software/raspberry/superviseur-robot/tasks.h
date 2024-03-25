@@ -163,6 +163,7 @@ private:
     */
     Message *CloseCommunicationRobot(Message * msgRcv);
 
+    void SendPictures(void *arg);
 };
 
 #endif // __TASKS_H__ 
