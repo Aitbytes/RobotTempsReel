@@ -268,6 +268,8 @@ void Tasks::ReceiveFromMonTask(void *arg) {
     rt_sem_p(&sem_serverOk, TM_INFINITE);
     cout << "Received message from monitor activated" << endl << flush;
 
+    Camera* cam = new Camera();
+
     while (1) {
         msgRcv = monitor.Read();
         cout << "Rcv <= " << msgRcv->ToString() << endl << flush;
@@ -281,17 +283,8 @@ void Tasks::ReceiveFromMonTask(void *arg) {
             rt_sem_v(&sem_startRobot);
         } else if (msgRcv->CompareID(MESSAGE_CAM_OPEN)) {
             
-            if (this->cam->Open()) {
+            if (cam::Open()) {
                 Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
-                WriteInQueue(&q_messageToMon, msgSend);
-            } else {
-                Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
-                WriteInQueue(&q_messageToMon, msgSend);
-            }
-        } else if (msgRcv->CompareID(MESSAGE_CAM_CLOSE)) {
-            this->cam->Close();
-            if (this->cam->IsOpen()) {
-                Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
                 WriteInQueue(&q_messageToMon, msgSend);
             } else {
                 Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
@@ -374,7 +367,7 @@ void Tasks::StartRobotTask(void *arg) {
             robotStarted = 1;
             rt_mutex_release(&mutex_robotStarted);
         }
-    }
+    }   
 }
 
 /**
@@ -382,7 +375,7 @@ void Tasks::StartRobotTask(void *arg) {
  */
 void Tasks::MoveTask(void *arg) {
     int rs;
-    int cpMove;
+    int cpMove;   
     
     cout << "Start " << __PRETTY_FUNCTION__ << endl << flush;
     // Synchronization barrier (waiting that all tasks are starting)
@@ -393,9 +386,9 @@ void Tasks::MoveTask(void *arg) {
     /**************************************************************************************/
     rt_task_set_periodic(NULL, TM_NOW, 100000000);
 
-    while (1) {
+    while (1) {   
         rt_task_wait_period(NULL);
-        //cout << "Periodic movement update";
+        cout << "Periodic movement update";
         rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
         rs = robotStarted;
         rt_mutex_release(&mutex_robotStarted);
@@ -465,7 +458,7 @@ void Tasks::BatteryLevel(void *arg) {
 
     while (1) {
         rt_task_wait_period(NULL);
-        //cout << "Periodic battery update" << endl << flush;
+        cout << "Periodic battery update" << endl << flush;
         rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
         rs = robotStarted;
         rt_mutex_release(&mutex_robotStarted);
