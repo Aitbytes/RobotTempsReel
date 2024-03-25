@@ -268,8 +268,6 @@ void Tasks::ReceiveFromMonTask(void *arg) {
     rt_sem_p(&sem_serverOk, TM_INFINITE);
     cout << "Received message from monitor activated" << endl << flush;
 
-    Camera* cam = new Camera();
-
     while (1) {
         msgRcv = monitor.Read();
         cout << "Rcv <= " << msgRcv->ToString() << endl << flush;
@@ -283,17 +281,17 @@ void Tasks::ReceiveFromMonTask(void *arg) {
             rt_sem_v(&sem_startRobot);
         } else if (msgRcv->CompareID(MESSAGE_CAM_OPEN)) {
             
-            if (cam->Open()) {
+            if (this->cam->Open()) {
                 Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
                 WriteInQueue(&q_messageToMon, msgSend);
             } else {
-                Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
+                Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
                 WriteInQueue(&q_messageToMon, msgSend);
             }
         } else if (msgRcv->CompareID(MESSAGE_CAM_CLOSE)) {
-            
-            if (cam->Close()) {
-                Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
+            this->cam->Close();
+            if (this->cam->isOpen()) {
+                Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
                 WriteInQueue(&q_messageToMon, msgSend);
             } else {
                 Message *msgSend = new Message(MESSAGE_ANSWER_ACK);

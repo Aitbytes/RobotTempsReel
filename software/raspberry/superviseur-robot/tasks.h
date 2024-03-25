@@ -64,6 +64,7 @@ private:
     /**********************************************************************/
     ComMonitor monitor;
     ComRobot robot;
+    Camera* cam;
     int robotStarted = 0;
     int move = MESSAGE_ROBOT_STOP;
     
