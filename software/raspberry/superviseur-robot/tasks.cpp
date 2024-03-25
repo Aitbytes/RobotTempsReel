@@ -411,7 +411,7 @@ void Tasks::MoveTask(void *arg) {
             CloseCommunicationRobot(robot.Write(new Message((MessageID)cpMove)));
             rt_mutex_release(&mutex_robot);
         }
-        cout << endl << flush;
+        //cout << endl << flush;
     }
 }
 
