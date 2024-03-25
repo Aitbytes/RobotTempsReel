@@ -341,7 +341,7 @@ void Tasks::StartRobotTask(void *arg) {
         rt_sem_p(&sem_startRobot, TM_INFINITE);
         cout << "Start robot without watchdog (";
         rt_mutex_acquire(&mutex_robot, TM_INFINITE);
-        msgSend = CheckCommunicationAndReturnMessage(robot.Write(robot.StartWithoutWD()));
+        msgSend = CloseCommunicationRobot(robot.Write(robot.StartWithoutWD()));
         rt_mutex_release(&mutex_robot);
         cout << msgSend->GetID();
         cout << ")" << endl;
@@ -387,7 +387,7 @@ void Tasks::MoveTask(void *arg) {
             cout << " move: " << cpMove;
             
             rt_mutex_acquire(&mutex_robot, TM_INFINITE);
-            CheckCommunicationAndReturnMessage(robot.Write(new Message((MessageID)cpMove)));
+            CloseCommunicationRobot(robot.Write(new Message((MessageID)cpMove)));
             rt_mutex_release(&mutex_robot);
         }
         cout << endl << flush;
@@ -452,7 +452,7 @@ void Tasks::BatteryLevel(void *arg) {
        
         if (rs == 1) {
             rt_mutex_acquire(&mutex_robot, TM_INFINITE);
-            msgSend = CheckCommunicationAndReturnMessage(robot.Write(robot.GetBattery()));
+            msgSend = CloseCommunicationRobot(robot.Write(robot.GetBattery()));
             rt_mutex_release(&mutex_robot);
 
             cout << "Current level of battery : " << msgSend->ToString() << endl << flush;
