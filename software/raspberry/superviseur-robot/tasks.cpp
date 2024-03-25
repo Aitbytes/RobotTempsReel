@@ -60,7 +60,7 @@ void Tasks::Init() {
 
     int err;
 
-    this->cam = new Camera(captureSize::sm,25);
+    this->cam = Camera(captureSize::sm,25);
 
     /**************************************************************************************/
     /* 	Mutex creation                                                                    */
