@@ -427,6 +427,7 @@ void Tasks::StartRobotTask(void *arg) {
       rt_mutex_release(&mutex_robotStarted);
       Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
       WriteInQueue(&q_messageToMon, msgSend);
+      cout << "Start robot successfully" << endl << flush;
     } else {
       Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
       WriteInQueue(&q_messageToMon, msgSend);
@@ -537,6 +538,34 @@ void Tasks::BatteryLevel(void *arg) {
       cout << "Current level of battery : " << msgSend->ToString() << endl
            << flush;
 
+      WriteInQueue(&q_messageToMon, msgSend);
+    }
+  }
+}
+
+void Tasts::ReloadWatchDog(void *arg) {
+
+  cout << "Start " << __PRETTY_FUNCTION__ << endl << flush;
+  // Synchronization barrier (waiting that all tasks are starting)
+  rt_sem_p(&sem_barrier, TM_INFINITE);
+
+  /**************************************************************************************/
+  /* The task starts here */
+  /**************************************************************************************/
+  rt_task_set_periodic(NULL, TM_NOW, 150000000);
+
+  while (1) {
+    rt_task_wait_period(NULL);
+
+    rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
+    rs = robotStarted;
+    wd = isUsingWatchDog;
+    rt_mutex_release(&mutex_robotStarted);
+
+    if ((rs == 1) && (wd == 1)) {
+      rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
+      msgSend = CloseCommunicationRobot(robot.Write(robot.ReloadWD());
+      rt_mutex_release(&mutex_robotStarted);
       WriteInQueue(&q_messageToMon, msgSend);
     }
   }
