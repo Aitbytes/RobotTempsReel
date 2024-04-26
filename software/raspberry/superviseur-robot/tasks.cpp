@@ -428,17 +428,11 @@ void Tasks::StartRobotTask(void *arg) {
       rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
       robotStarted = 1;
       rt_mutex_release(&mutex_robotStarted);
-      if (robotStarted) {
-        Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
-        WriteInQueue(&q_messageToMon, msgSend);
-      }
-      elseif(/*erreur*/) {
-        Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
-        WriteInQueue(&q_messageToMon, msgSend);
-      }
+      Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
+      WriteInQueue(&q_messageToMon, msgSend);
     } else {
-        Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
-        WriteInQueue(&q_messageToMon, msgSend);
+      Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
+      WriteInQueue(&q_messageToMon, msgSend);
     }
   }
 }
