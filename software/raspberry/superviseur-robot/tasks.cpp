@@ -516,10 +516,10 @@ void Tasks::SendPictures(void *arg) {
         rt_mutex_release(&mutex_robotStarted);
        
         if (rs == 1) {
-            // Img * img = new Img(this->cam.Grab());
+            Img * img = new Img(this->cam.Grab());
             // MessageImg *msgImg = new MessageImg(MESSAGE_CAM_IMAGE, img);
-            //
-            // WriteInQueue(&q_messageToMon, msgSend);
+            
+            WriteInQueue(&q_messageToMon, msgSend);
         }
         
     }      
