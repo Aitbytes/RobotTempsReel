@@ -1,16 +1,9 @@
-Updating f412ce1..7fdf2c9
-Fast-forward
- software/raspberry/superviseur-robot/tasks.cpp | 1 +
- 1 file changed, 1 insertion(+)
+Already up to date.
 "make" -f nbproject/Makefile-Debug__RPI_.mk QMAKE= SUBPROJECTS= .build-conf
 make[1]: Entering directory '/home/xenomai/RobotTempsReel/software/raspberry/superviseur-robot'
 "make"  -f nbproject/Makefile-Debug__RPI_.mk dist/Debug__RPI_/GNU-Linux/superviseur-robot
 make[2]: Entering directory '/home/xenomai/RobotTempsReel/software/raspberry/superviseur-robot'
-mkdir -p build/Debug__RPI_/GNU-Linux
-rm -f "build/Debug__RPI_/GNU-Linux/tasks.o.d"
-g++ -D_GNU_SOURCE -D_REENTRANT -fasynchronous-unwind-tables -D__COBALT__ -I/usr/xenomai/include/alchemy -Wno-pmf-conversions -std=gnu++11   -c -g -D_WITH_TRACE_ -D__WITH_ARUCO__ -I./ -I./lib -I/usr/xenomai/include -I/usr/xenomai/include/cobalt `pkg-config --cflags opencv4`   -MMD -MP -MF "build/Debug__RPI_/GNU-Linux/tasks.o.d" -o build/Debug__RPI_/GNU-Linux/tasks.o tasks.cpp
-mkdir -p dist/Debug__RPI_/GNU-Linux
-g++ -D_GNU_SOURCE -D_REENTRANT -fasynchronous-unwind-tables -D__COBALT__ -I/usr/xenomai/include/alchemy -Wno-pmf-conversions -std=gnu++11    -o dist/Debug__RPI_/GNU-Linux/superviseur-robot build/Debug__RPI_/GNU-Linux/lib/base64/base64.o build/Debug__RPI_/GNU-Linux/lib/camera.o build/Debug__RPI_/GNU-Linux/lib/commonitor.o build/Debug__RPI_/GNU-Linux/lib/comrobot.o build/Debug__RPI_/GNU-Linux/lib/img.o build/Debug__RPI_/GNU-Linux/lib/messages.o build/Debug__RPI_/GNU-Linux/main.o build/Debug__RPI_/GNU-Linux/tasks.o build/Debug__RPI_/GNU-Linux/wrapper.o `pkg-config --libs opencv4`   -Wl,--no-as-needed -lalchemy -lcopperplate -lcobalt /usr/xenomai/lib/xenomai/bootstrap.o -Wl,--wrap=main -Wl,--dynamic-list=/usr/xenomai/lib/dynlist.ld -L/usr/xenomai/lib -lpthread -lrt
+make[2]: 'dist/Debug__RPI_/GNU-Linux/superviseur-robot' is up to date.
 make[2]: Leaving directory '/home/xenomai/RobotTempsReel/software/raspberry/superviseur-robot'
 make[1]: Leaving directory '/home/xenomai/RobotTempsReel/software/raspberry/superviseur-robot'
 #################################
@@ -36,16 +29,16 @@ Open server on port 5544 (3)
 Rock'n'Roll baby, client accepted!
 Received message from monitor activated
 wait msg to send
-Rcv <= Message: "Open serial com"
+Receive from monitor <= Message: "Open serial com"
 Open serial com (5)
-Send msg to mon: Message: "Answer [Acknowledge]"
+Send msg to monitor => : Message: "Answer [Acknowledge]"
 wait msg to send
-Rcv <= Message: "Robot start with watchdog"
-Start robot with watchdog (Communication reset successfully
+Receive from monitor <= Message: "Robot start without watchdog"
+Start robot without watchdog (Communication reset successfully
 2)
 Watchdog answer: Message: "Answer [Acknowledge]"
-Send msg to mon: Message: "Answer [Acknowledge]"
+Send msg to monitor => : Message: "Answer [Acknowledge]"
 wait msg to send
-Send msg to mon: Message: "Answer [Acknowledge]"
+Send msg to monitor => : Message: "Answer [Acknowledge]"
 wait msg to send
 Start robot successfully
