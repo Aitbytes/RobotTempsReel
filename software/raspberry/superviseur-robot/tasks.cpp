@@ -566,7 +566,7 @@ void Tasks::ReloadWatchDog(void *arg) {
 
     if ((rs == 1) && (wd == 1)) {
       rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
-      msgSend = CloseCommunicationRobot(robot.Write(robot.ReloadWD()));
+      Message * msgSend = CloseCommunicationRobot(robot.Write(robot.ReloadWD()));
       rt_mutex_release(&mutex_robotStarted);
       WriteInQueue(&q_messageToMon, msgSend);
     }
