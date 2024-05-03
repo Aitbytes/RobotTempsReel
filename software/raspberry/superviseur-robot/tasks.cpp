@@ -289,7 +289,7 @@ void Tasks::SendToMonTask(void *arg) {
   while (1) {
     cout << "wait msg to send" << endl << flush;
     msg = ReadInQueue(&q_messageToMon);
-    cout << "Send msg to mon: " << msg->ToString() << endl << flush;
+    cout << "Send msg to monitor => : " << msg->ToString() << endl << flush;
     rt_mutex_acquire(&mutex_monitor, TM_INFINITE);
     monitor.Write(msg); // The message is deleted with the Write
     rt_mutex_release(&mutex_monitor);
@@ -314,7 +314,7 @@ void Tasks::ReceiveFromMonTask(void *arg) {
 
   while (1) {
     msgRcv = monitor.Read();
-    cout << "Rcv <= " << msgRcv->ToString() << endl << flush;
+    cout << "Receive from monitor <= " << msgRcv->ToString() << endl << flush;
 
     if (msgRcv->CompareID(MESSAGE_MONITOR_LOST)) {
       delete (msgRcv);

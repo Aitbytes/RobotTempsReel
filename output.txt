@@ -1,8 +1,7 @@
-Updating b73151a..23c1f69
+Updating f412ce1..7fdf2c9
 Fast-forward
- output.txt                                     | 62 ++++----------------------
- software/raspberry/superviseur-robot/tasks.cpp |  2 +-
- 2 files changed, 10 insertions(+), 54 deletions(-)
+ software/raspberry/superviseur-robot/tasks.cpp | 1 +
+ 1 file changed, 1 insertion(+)
 "make" -f nbproject/Makefile-Debug__RPI_.mk QMAKE= SUBPROJECTS= .build-conf
 make[1]: Entering directory '/home/xenomai/RobotTempsReel/software/raspberry/superviseur-robot'
 "make"  -f nbproject/Makefile-Debug__RPI_.mk dist/Debug__RPI_/GNU-Linux/superviseur-robot
@@ -19,3 +18,34 @@ make[1]: Leaving directory '/home/xenomai/RobotTempsReel/software/raspberry/supe
 #################################
 Mutexes created successfully
 Semaphores created successfully
+Tasks created successfully
+Queues created successfully
+Start void Tasks::ServerTask(void*)
+Start void Tasks::SendToMonTask(void*)
+Start void Tasks::ReceiveFromMonTask(void*)
+Start void Tasks::OpenComRobot(void*)
+Start void Tasks::StartRobotTask(void*)
+Start void Tasks::MoveTask(void*)
+Start void Tasks::BatteryLevel(void*)
+Start void Tasks::SendPictures(void*)
+Start void Tasks::ReloadWatchDog(void*)
+started watchdog
+Tasks launched
+Tasks synchronized
+Open server on port 5544 (3)
+Rock'n'Roll baby, client accepted!
+Received message from monitor activated
+wait msg to send
+Rcv <= Message: "Open serial com"
+Open serial com (5)
+Send msg to mon: Message: "Answer [Acknowledge]"
+wait msg to send
+Rcv <= Message: "Robot start with watchdog"
+Start robot with watchdog (Communication reset successfully
+2)
+Watchdog answer: Message: "Answer [Acknowledge]"
+Send msg to mon: Message: "Answer [Acknowledge]"
+wait msg to send
+Send msg to mon: Message: "Answer [Acknowledge]"
+wait msg to send
+Start robot successfully
