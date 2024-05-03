@@ -543,7 +543,7 @@ void Tasks::BatteryLevel(void *arg) {
   }
 }
 
-void Tasts::ReloadWatchDog(void *arg) {
+void Tasks::ReloadWatchDog(void *arg) {
 
   cout << "Start " << __PRETTY_FUNCTION__ << endl << flush;
   // Synchronization barrier (waiting that all tasks are starting)
