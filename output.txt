@@ -1,44 +1,14 @@
-Already up to date.
+Updating 7cf92e6..5fbad72
+Fast-forward
+ output.txt                                     | 23 ++++++++---------------
+ software/raspberry/superviseur-robot/tasks.cpp |  2 +-
+ 2 files changed, 9 insertions(+), 16 deletions(-)
 "make" -f nbproject/Makefile-Debug__RPI_.mk QMAKE= SUBPROJECTS= .build-conf
 make[1]: Entering directory '/home/xenomai/RobotTempsReel/software/raspberry/superviseur-robot'
 "make"  -f nbproject/Makefile-Debug__RPI_.mk dist/Debug__RPI_/GNU-Linux/superviseur-robot
 make[2]: Entering directory '/home/xenomai/RobotTempsReel/software/raspberry/superviseur-robot'
-make[2]: 'dist/Debug__RPI_/GNU-Linux/superviseur-robot' is up to date.
+mkdir -p build/Debug__RPI_/GNU-Linux
+rm -f "build/Debug__RPI_/GNU-Linux/tasks.o.d"
+g++ -D_GNU_SOURCE -D_REENTRANT -fasynchronous-unwind-tables -D__COBALT__ -I/usr/xenomai/include/alchemy -Wno-pmf-conversions -std=gnu++11   -c -g -D_WITH_TRACE_ -D__WITH_ARUCO__ -I./ -I./lib -I/usr/xenomai/include -I/usr/xenomai/include/cobalt `pkg-config --cflags opencv4`   -MMD -MP -MF "build/Debug__RPI_/GNU-Linux/tasks.o.d" -o build/Debug__RPI_/GNU-Linux/tasks.o tasks.cpp
 make[2]: Leaving directory '/home/xenomai/RobotTempsReel/software/raspberry/superviseur-robot'
 make[1]: Leaving directory '/home/xenomai/RobotTempsReel/software/raspberry/superviseur-robot'
-#################################
-#      DE STIJL PROJECT         #
-#################################
-Mutexes created successfully
-Semaphores created successfully
-Tasks created successfully
-Queues created successfully
-Start void Tasks::ServerTask(void*)
-Start void Tasks::SendToMonTask(void*)
-Start void Tasks::ReceiveFromMonTask(void*)
-Start void Tasks::OpenComRobot(void*)
-Start void Tasks::StartRobotTask(void*)
-Start void Tasks::MoveTask(void*)
-Start void Tasks::BatteryLevel(void*)
-Start void Tasks::SendPictures(void*)
-Start void Tasks::ReloadWatchDog(void*)
-started watchdog
-Tasks launched
-Tasks synchronized
-Open server on port 5544 (3)
-Rock'n'Roll baby, client accepted!
-Received message from monitor activated
-wait msg to send
-Receive from monitor <= Message: "Open serial com"
-Open serial com (5)
-Send msg to monitor => : Message: "Answer [Acknowledge]"
-wait msg to send
-Receive from monitor <= Message: "Robot start without watchdog"
-Start robot without watchdog (Communication reset successfully
-2)
-Watchdog answer: Message: "Answer [Acknowledge]"
-Send msg to monitor => : Message: "Answer [Acknowledge]"
-wait msg to send
-Send msg to monitor => : Message: "Answer [Acknowledge]"
-wait msg to send
-Start robot successfully
