@@ -150,7 +150,7 @@ void Tasks::Init() {
     exit(EXIT_FAILURE);
   }
   if (err = rt_task_create(&th_watchdog, "th_camera", 0, PRIORITY_WATCHDOG, 0)) {
-    cerr << "Error task create: " << strerror(-err) << endl << flush;
+    cerr << " Error task create watchdog: " << strerror(-err) << endl << flush;
     exit(EXIT_FAILURE);
   }
   cout << "Tasks created successfully" << endl << flush;
