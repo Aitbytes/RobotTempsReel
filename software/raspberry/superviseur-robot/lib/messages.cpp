@@ -120,7 +120,7 @@ string Message::ToString() {
         } else {
             return "Message not valid";
         }
-    else
+    }else{
         return "Invalid message";
     }
 }

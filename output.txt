@@ -1,8 +1,8 @@
-Updating ededc16..4eef99d
+Updating 4eef99d..fe8df4d
 Fast-forward
- output.txt                                         | 62 +++-------------------
- .../raspberry/superviseur-robot/lib/messages.cpp   |  6 ++-
- 2 files changed, 12 insertions(+), 56 deletions(-)
+ output.txt                                            | 12 ++++--------
+ software/raspberry/superviseur-robot/lib/messages.cpp |  2 +-
+ 2 files changed, 5 insertions(+), 9 deletions(-)
 "make" -f nbproject/Makefile-Debug__RPI_.mk QMAKE= SUBPROJECTS= .build-conf
 make[1]: Entering directory '/home/xenomai/RobotTempsReel/software/raspberry/superviseur-robot'
 "make"  -f nbproject/Makefile-Debug__RPI_.mk dist/Debug__RPI_/GNU-Linux/superviseur-robot
