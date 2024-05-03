@@ -115,7 +115,7 @@ void Message::SetID(MessageID id) {
  */
 string Message::ToString() {
     if (CheckID(this->messageID)) {
-        if (this->messageID < len(MESSAGE_ID_STRING) ) {
+        if (this->messageID < sizeof(MESSAGE_ID_STRING) ) {
             return "Message: \"" + MESSAGE_ID_STRING[this->messageID] + "\"";
         } else {
             return "Message not valid";
