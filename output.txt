@@ -1,64 +1,18 @@
-Updating 5fbad72..e8e6b1e
+Updating e8e6b1e..ededc16
 Fast-forward
- output.txt                                     | 46 +++++---------------------
- software/raspberry/superviseur-robot/tasks.cpp |  2 +-
- 2 files changed, 9 insertions(+), 39 deletions(-)
+ output.txt                                         | 56 ++++++++++++++++++++--
+ .../raspberry/superviseur-robot/lib/messages.cpp   |  5 +-
+ software/raspberry/superviseur-robot/tasks.cpp     |  2 +-
+ 3 files changed, 58 insertions(+), 5 deletions(-)
 "make" -f nbproject/Makefile-Debug__RPI_.mk QMAKE= SUBPROJECTS= .build-conf
 make[1]: Entering directory '/home/xenomai/RobotTempsReel/software/raspberry/superviseur-robot'
 "make"  -f nbproject/Makefile-Debug__RPI_.mk dist/Debug__RPI_/GNU-Linux/superviseur-robot
 make[2]: Entering directory '/home/xenomai/RobotTempsReel/software/raspberry/superviseur-robot'
+mkdir -p build/Debug__RPI_/GNU-Linux/lib
+rm -f "build/Debug__RPI_/GNU-Linux/lib/messages.o.d"
 mkdir -p build/Debug__RPI_/GNU-Linux
 rm -f "build/Debug__RPI_/GNU-Linux/tasks.o.d"
+g++ -D_GNU_SOURCE -D_REENTRANT -fasynchronous-unwind-tables -D__COBALT__ -I/usr/xenomai/include/alchemy -Wno-pmf-conversions -std=gnu++11   -c -g -D_WITH_TRACE_ -D__WITH_ARUCO__ -I./ -I./lib -I/usr/xenomai/include -I/usr/xenomai/include/cobalt `pkg-config --cflags opencv4`   -MMD -MP -MF "build/Debug__RPI_/GNU-Linux/lib/messages.o.d" -o build/Debug__RPI_/GNU-Linux/lib/messages.o lib/messages.cpp
 g++ -D_GNU_SOURCE -D_REENTRANT -fasynchronous-unwind-tables -D__COBALT__ -I/usr/xenomai/include/alchemy -Wno-pmf-conversions -std=gnu++11   -c -g -D_WITH_TRACE_ -D__WITH_ARUCO__ -I./ -I./lib -I/usr/xenomai/include -I/usr/xenomai/include/cobalt `pkg-config --cflags opencv4`   -MMD -MP -MF "build/Debug__RPI_/GNU-Linux/tasks.o.d" -o build/Debug__RPI_/GNU-Linux/tasks.o tasks.cpp
-mkdir -p dist/Debug__RPI_/GNU-Linux
-g++ -D_GNU_SOURCE -D_REENTRANT -fasynchronous-unwind-tables -D__COBALT__ -I/usr/xenomai/include/alchemy -Wno-pmf-conversions -std=gnu++11    -o dist/Debug__RPI_/GNU-Linux/superviseur-robot build/Debug__RPI_/GNU-Linux/lib/base64/base64.o build/Debug__RPI_/GNU-Linux/lib/camera.o build/Debug__RPI_/GNU-Linux/lib/commonitor.o build/Debug__RPI_/GNU-Linux/lib/comrobot.o build/Debug__RPI_/GNU-Linux/lib/img.o build/Debug__RPI_/GNU-Linux/lib/messages.o build/Debug__RPI_/GNU-Linux/main.o build/Debug__RPI_/GNU-Linux/tasks.o build/Debug__RPI_/GNU-Linux/wrapper.o `pkg-config --libs opencv4`   -Wl,--no-as-needed -lalchemy -lcopperplate -lcobalt /usr/xenomai/lib/xenomai/bootstrap.o -Wl,--wrap=main -Wl,--dynamic-list=/usr/xenomai/lib/dynlist.ld -L/usr/xenomai/lib -lpthread -lrt
 make[2]: Leaving directory '/home/xenomai/RobotTempsReel/software/raspberry/superviseur-robot'
 make[1]: Leaving directory '/home/xenomai/RobotTempsReel/software/raspberry/superviseur-robot'
-#################################
-#      DE STIJL PROJECT         #
-#################################
-Mutexes created successfully
-Semaphores created successfully
-Tasks created successfully
-Queues created successfully
-Start void Tasks::ServerTask(void*)
-Start void Tasks::SendToMonTask(void*)
-Start void Tasks::ReceiveFromMonTask(void*)
-Start void Tasks::OpenComRobot(void*)
-Start void Tasks::StartRobotTask(void*)
-Start void Tasks::MoveTask(void*)
-Start void Tasks::BatteryLevel(void*)
-Start void Tasks::SendPictures(void*)
-Start void Tasks::ReloadWatchDog(void*)
-started watchdog
-Tasks launched
-Tasks synchronized
-Open server on port 5544 (3)
-Rock'n'Roll baby, client accepted!
-Received message from monitor activated
-wait msg to send
-Receive from monitor <= Message: "Open serial com"
-Open serial com (5)
-Send msg to monitor => : Message: "Answer [Acknowledge]"| with id : 2
-wait msg to send
-Receive from monitor <= Message: "Robot start without watchdog"
-Start robot without watchdog (Error message : 4 | Communication error n°1 
-4)
-Watchdog answer: Message: "Answer [Command timeout]"
-Send msg to monitor => : Message: "Answer [Command timeout]"| with id : 4
-wait msg to send
-Send msg to monitor => : Message: "Answer [Not Acknowledge]"| with id : 3
-wait msg to send
-Receive from monitor <= Message: "Open serial com"
-Open serial com (6)
-Send msg to monitor => : Message: "Answer [Acknowledge]"| with id : 2
-wait msg to send
-Receive from monitor <= Message: "Robot start without watchdog"
-Start robot without watchdog (Communication reset successfully
-2)
-Watchdog answer: Message: "Answer [Acknowledge]"
-Send msg to monitor => : Message: "Answer [Acknowledge]"| with id : 2
-wait msg to send
-Send msg to monitor => : Message: "Answer [Acknowledge]"| with id : 2
-wait msg to send
-Start robot successfully

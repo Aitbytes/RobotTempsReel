@@ -114,13 +114,15 @@ void Message::SetID(MessageID id) {
  * @return A string describing message contents
  */
 string Message::ToString() {
-    if (CheckID(this->messageID))
+    if (CheckID(this->messageID)) {
         if (this->messageID < len(MESSAGE_ID_STRING) ) {
             return "Message: \"" + MESSAGE_ID_STRING[this->messageID] + "\"";
+        } else {
+            return "Message not valid";
         }
-            return "Message not valid"
     else
         return "Invalid message";
+    }
 }
 
 /**
