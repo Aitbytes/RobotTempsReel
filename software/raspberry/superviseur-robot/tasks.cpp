@@ -419,7 +419,7 @@ void Tasks::StartRobotTask(void *arg) {
     cout << msgSend->GetID();
     cout << ")" << endl;
 
-    cout << "Movement answer: " << msgSend->ToString() << endl << flush;
+    cout << "Watchdog answer: " << msgSend->ToString() << endl << flush;
     WriteInQueue(&q_messageToMon,
                  msgSend); // msgSend will be deleted by sendToMon
 
