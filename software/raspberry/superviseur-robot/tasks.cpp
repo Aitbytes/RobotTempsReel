@@ -319,41 +319,38 @@ void Tasks::ReceiveFromMonTask(void *arg) {
       // action lorsqu'il y'a le watchdog
       isUsingWatchDog = 1;
       rt_sem_v(&sem_startRobot);
-    }
-  }
-  else if (msgRcv->CompareID(MESSAGE_CAM_OPEN)) {
+    } else if (msgRcv->CompareID(MESSAGE_CAM_OPEN)) {
 
-    if (this->cam.Open()) {
-      Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
-      WriteInQueue(&q_messageToMon, msgSend);
-    } else {
-      Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
-      WriteInQueue(&q_messageToMon, msgSend);
-    }
-  }
-  else if (msgRcv->CompareID(MESSAGE_CAM_CLOSE)) {
-    this->cam.Close();
-    if (this->cam.IsOpen()) {
-      Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
-      WriteInQueue(&q_messageToMon, msgSend);
-    } else {
-      Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
-      WriteInQueue(&q_messageToMon, msgSend);
-    }
-  }
-  else if (msgRcv->CompareID(MESSAGE_ROBOT_GO_FORWARD) ||
+      if (this->cam.Open()) {
+        Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
+        WriteInQueue(&q_messageToMon, msgSend);
+      } else {
+        Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
+        WriteInQueue(&q_messageToMon, msgSend);
+      }
+    } else if (msgRcv->CompareID(MESSAGE_CAM_CLOSE)) {
+      this->cam.Close();
+      if (this->cam.IsOpen()) {
+        Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
+        WriteInQueue(&q_messageToMon, msgSend);
+      } else {
+        Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
+        WriteInQueue(&q_messageToMon, msgSend);
+      }
+    } else if (msgRcv->CompareID(MESSAGE_ROBOT_GO_FORWARD) ||
            msgRcv->CompareID(MESSAGE_ROBOT_GO_BACKWARD) ||
            msgRcv->CompareID(MESSAGE_ROBOT_GO_LEFT) ||
            msgRcv->CompareID(MESSAGE_ROBOT_GO_RIGHT) ||
            msgRcv->CompareID(MESSAGE_ROBOT_STOP)) {
 
-    rt_mutex_acquire(&mutex_move, TM_INFINITE);
-    move = msgRcv->GetID();
-    rt_mutex_release(&mutex_move);
+      rt_mutex_acquire(&mutex_move, TM_INFINITE);
+      move = msgRcv->GetID();
+      rt_mutex_release(&mutex_move);
+  }
   }
   delete (msgRcv); // mus be deleted manually, no consumer
 }
-}
+
 
 /**
  * @brief Thread opening communication with the robot.
