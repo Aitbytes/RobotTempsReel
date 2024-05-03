@@ -67,6 +67,7 @@ private:
     Camera cam;
     int robotStarted = 0;
     int move = MESSAGE_ROBOT_STOP;
+    int isUsingWatchDog = 0;
     
     /**********************************************************************/
     /* Tasks                                                              */
