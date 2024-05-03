@@ -167,7 +167,7 @@ private:
     void SendPictures(void *arg);
 
 
-    void Tasks::StartRobotTask(void *arg);
+    void Tasks::ReloadWatchDog(void *arg);
 };
 
 #endif // __TASKS_H__ 
