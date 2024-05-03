@@ -65,6 +65,7 @@ const string MESSAGE_ID_STRING[] = {
     "Robot state [Not busy]",
     "Robot state [Busy]"
 };
+const int MESSAGE_NUMBER = 39; 
 
 /*
  * @brief Constants used with ToString method, for printing answer id
@@ -115,7 +116,7 @@ void Message::SetID(MessageID id) {
  */
 string Message::ToString() {
     if (CheckID(this->messageID)) {
-        if (this->messageID < sizeof(MESSAGE_ID_STRING) ) {
+        if (this->messageID < MESSAGE_NUMBER ) {
             return "Message: \"" + MESSAGE_ID_STRING[this->messageID] + "\"";
         } else {
             return "Message not valid";
