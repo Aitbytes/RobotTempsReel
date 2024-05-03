@@ -319,7 +319,6 @@ void Tasks::ReceiveFromMonTask(void *arg) {
       // action lorsqu'il y'a le watchdog
       isUsingWatchDog = 1;
       rt_sem_v(&sem_startRobot);
-    }
   }
   else if (msgRcv->CompareID(MESSAGE_CAM_OPEN)) {
 
