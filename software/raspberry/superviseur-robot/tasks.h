@@ -165,6 +165,9 @@ private:
     Message *CloseCommunicationRobot(Message * msgRcv);
 
     void SendPictures(void *arg);
+
+
+    void Tasks::StartRobotTask(void *arg);
 };
 
 #endif // __TASKS_H__ 
