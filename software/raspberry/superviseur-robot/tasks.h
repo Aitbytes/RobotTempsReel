@@ -80,6 +80,7 @@ private:
     RT_TASK th_move;
     RT_TASK th_batteryLevel;
     RT_TASK th_camera;
+    RT_TASK th_watchdog;
     
     /**********************************************************************/
     /* Mutex                                                              */

@@ -210,6 +210,11 @@ void Tasks::Run() {
     cerr << "Error task start: " << strerror(-err) << endl << flush;
     exit(EXIT_FAILURE);
   }
+  if (err = rt_task_start(&th_watchdog, (void (*)(void *)) & Tasks::ReloadWatchDog(void *arg),
+                          this)) {
+    cerr << "Error task start: " << strerror(-err) << endl << flush;
+    exit(EXIT_FAILURE);
+  }
 
   cout << "Tasks launched" << endl << flush;
 }
