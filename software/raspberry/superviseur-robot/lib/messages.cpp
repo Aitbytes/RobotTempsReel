@@ -16,6 +16,7 @@
  */
 
 #include "messages.h"
+#include <cstdio>
 #include <exception>
 #include <stdexcept>
 #include <string>
@@ -117,8 +118,10 @@ void Message::SetID(MessageID id) {
 string Message::ToString() {
     if (CheckID(this->messageID)) {
         if (this->messageID < MESSAGE_NUMBER ) {
+            printf("Valid message, ID : %d\n",this->messageID);
             return "Message: \"" + MESSAGE_ID_STRING[this->messageID] + "\"";
         } else {
+            printf("Invalid message %d\n", this->messageID);
             return "Message not valid";
         }
     }else{
@@ -518,6 +521,7 @@ string MessagePosition::ToString() {
     if (CheckID(this->messageID))
         return "Message: \"" + MESSAGE_ID_STRING[this->messageID] + "\"\nPosition: \"" + to_string(this->pos.center.x) + ";" + to_string(this->pos.center.y) + "\"";
     else
+        printf("Invalid message %d\n", this->messageID);
         return "Invalid message";
 }
 
