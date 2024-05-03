@@ -29,6 +29,7 @@
 #define PRIORITY_TSTARTROBOT 20
 #define PRIORITY_TCAMERA 21
 #define PRIORITY_TBATTERY 15
+#define PRIORITY_WATCHDOG 20
 
 #define ERROR_LIMIT 3
 
@@ -145,6 +146,10 @@ void Tasks::Init() {
     exit(EXIT_FAILURE);
   }
   if (err = rt_task_create(&th_camera, "th_camera", 0, PRIORITY_TCAMERA, 0)) {
+    cerr << "Error task create: " << strerror(-err) << endl << flush;
+    exit(EXIT_FAILURE);
+  }
+  if (err = rt_task_create(&th_watchdog, "th_camera", 0, PRIORITY_WATCHDOG, 0)) {
     cerr << "Error task create: " << strerror(-err) << endl << flush;
     exit(EXIT_FAILURE);
   }

@@ -1,7 +1,15 @@
-Updating 0ee78bb..0751f50
+Updating 0751f50..0533c72
 Fast-forward
- software/raspberry/superviseur-robot/tasks.cpp | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .vscode/c_cpp_properties.json                  | 18 ++++++++
+ .vscode/settings.json                          | 59 ++++++++++++++++++++++++++
+ output.txt                                     | 45 ++++++++++++++++++++
+ sendAndBuild.sh                                | 11 +++++
+ software/raspberry/superviseur-robot/tasks.cpp |  3 ++
+ 5 files changed, 136 insertions(+)
+ create mode 100644 .vscode/c_cpp_properties.json
+ create mode 100644 .vscode/settings.json
+ create mode 100644 output.txt
+ create mode 100755 sendAndBuild.sh
 "make" -f nbproject/Makefile-Debug__RPI_.mk QMAKE= SUBPROJECTS= .build-conf
 make[1]: Entering directory '/home/xenomai/RobotTempsReel/software/raspberry/superviseur-robot'
 "make"  -f nbproject/Makefile-Debug__RPI_.mk dist/Debug__RPI_/GNU-Linux/superviseur-robot
@@ -32,6 +40,18 @@ Received message from monitor activated
 wait msg to send
 Rcv <= Message: "Open serial com"
 Open serial com (5)
+Send msg to mon: Message: "Answer [Acknowledge]"
+wait msg to send
+Rcv <= Message: "Robot start without watchdog"
+Start robot without watchdog (Error message : 4 | Communication error n°1 
+4)
+Movement answer: Message: "Answer [Command timeout]"
+Send msg to mon: Message: "Answer [Command timeout]"
+wait msg to send
+Send msg to mon: Message: "Answer [Not Acknowledge]"
+wait msg to send
+Rcv <= Message: "Open serial com"
+Open serial com (6)
 Send msg to mon: Message: "Answer [Acknowledge]"
 wait msg to send
 Rcv <= Message: "Robot start without watchdog"
