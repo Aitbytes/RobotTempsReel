@@ -214,6 +214,9 @@ void Tasks::Run() {
                           this)) {
     cerr << "Error task start: " << strerror(-err) << endl << flush;
     exit(EXIT_FAILURE);
+  } else {
+    cout << "started watchdog" << endl << flush;
+
   }
 
   cout << "Tasks launched" << endl << flush;
