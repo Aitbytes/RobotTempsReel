@@ -1,8 +1,8 @@
-Updating 0533c72..b73151a
+Updating b73151a..23c1f69
 Fast-forward
- output.txt                                     | 26 +++++++++++++++++++++++---
- software/raspberry/superviseur-robot/tasks.cpp |  5 +++++
- 2 files changed, 28 insertions(+), 3 deletions(-)
+ output.txt                                     | 62 ++++----------------------
+ software/raspberry/superviseur-robot/tasks.cpp |  2 +-
+ 2 files changed, 10 insertions(+), 54 deletions(-)
 "make" -f nbproject/Makefile-Debug__RPI_.mk QMAKE= SUBPROJECTS= .build-conf
 make[1]: Entering directory '/home/xenomai/RobotTempsReel/software/raspberry/superviseur-robot'
 "make"  -f nbproject/Makefile-Debug__RPI_.mk dist/Debug__RPI_/GNU-Linux/superviseur-robot
