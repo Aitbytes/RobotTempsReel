@@ -626,7 +626,7 @@ void Tasks::SendPictures(void *arg) {
       MessageImg *msgImg = new MessageImg(MESSAGE_CAM_IMAGE, img);
 
       printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
-      WriteInQueue(&q_messageToMon, msgSend);
+      WriteInQueue(&q_messageToMon, msgImg);
     }
   }
 }
