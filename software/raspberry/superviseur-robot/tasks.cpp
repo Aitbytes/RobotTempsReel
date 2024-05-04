@@ -338,11 +338,11 @@ void Tasks::ReceiveFromMonTask(void *arg) {
 
       if (this->cam.Open()) {
         Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
-        printf("Funcion __PRETTY_FUNCTION__ sending : %d\n", msgSend->GetID());
+        printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
         WriteInQueue(&q_messageToMon, msgSend);
       } else {
         Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
-        printf("Funcion __PRETTY_FUNCTION__ sending : %d\n", msgSend->GetID());
+        printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
         WriteInQueue(&q_messageToMon, msgSend);
       }
     } else if (msgRcv->CompareID(MESSAGE_CAM_CLOSE)) {
@@ -350,11 +350,11 @@ void Tasks::ReceiveFromMonTask(void *arg) {
       if (this->cam.IsOpen()) {
         Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
 
-        printf("Funcion __PRETTY_FUNCTION__ sending : %d\n", msgSend->GetID());
+        printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
         WriteInQueue(&q_messageToMon, msgSend);
       } else {
         Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
-        printf("Funcion __PRETTY_FUNCTION__ sending : %d\n", msgSend->GetID());
+        printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
         WriteInQueue(&q_messageToMon, msgSend);
       }
     } else if (msgRcv->CompareID(MESSAGE_ROBOT_GO_FORWARD) ||
@@ -400,7 +400,7 @@ void Tasks::OpenComRobot(void *arg) {
     } else {
       msgSend = new Message(MESSAGE_ANSWER_ACK);
     }
-    printf("Funcion __PRETTY_FUNCTION__ sending : %d\n", msgSend->GetID());
+    printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
     WriteInQueue(&q_messageToMon,
                  msgSend); // msgSend will be deleted by sendToMon
   }
@@ -438,7 +438,7 @@ void Tasks::StartRobotTask(void *arg) {
     cout << ")" << endl;
 
     cout << "Watchdog answer: " << msgSend->ToString() << endl << flush;
-    printf("Funcion __PRETTY_FUNCTION__ sending : %d\n", msgSend->GetID());
+    printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
     WriteInQueue(&q_messageToMon,
                  msgSend); // msgSend will be deleted by sendToMon
 
@@ -448,12 +448,12 @@ void Tasks::StartRobotTask(void *arg) {
       rt_mutex_release(&mutex_robotStarted);
       Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
 
-      printf("Funcion __PRETTY_FUNCTION__ sending : %d\n", msgSend->GetID());
+      printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
       WriteInQueue(&q_messageToMon, msgSend);
       cout << "Start robot successfully" << endl << flush;
     } else {
       Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
-      printf("Funcion __PRETTY_FUNCTION__ sending : %d\n", msgSend->GetID());
+      printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
       WriteInQueue(&q_messageToMon, msgSend);
     }
   }
@@ -563,7 +563,7 @@ void Tasks::BatteryLevel(void *arg) {
       cout << "Current level of battery : " << msgSend->ToString() << endl
            << flush;
 
-      printf("Funcion __PRETTY_FUNCTION__ sending : %d\n", msgSend->GetID());
+      printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
       WriteInQueue(&q_messageToMon, msgSend);
     }
   }
@@ -592,7 +592,7 @@ void Tasks::ReloadWatchDog(void *arg) {
       rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
       Message *msgSend = CloseCommunicationRobot(robot.Write(robot.ReloadWD()));
       rt_mutex_release(&mutex_robotStarted);
-      printf("Funcion __PRETTY_FUNCTION__ sending : %d\n", msgSend->GetID());
+      printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
       WriteInQueue(&q_messageToMon, msgSend);
     }
   }
@@ -622,7 +622,7 @@ void Tasks::SendPictures(void *arg) {
       Img *img = new Img(this->cam.Grab());
       // MessageImg *msgImg = new MessageImg(MESSAGE_CAM_IMAGE, img);
 
-      printf("Funcion __PRETTY_FUNCTION__ sending : %d\n", msgSend->GetID());
+      printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
       WriteInQueue(&q_messageToMon, msgSend);
     }
   }
