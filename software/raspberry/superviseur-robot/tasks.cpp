@@ -345,6 +345,9 @@ void Tasks::ReceiveFromMonTask(void *arg) {
         printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
         WriteInQueue(&q_messageToMon, msgSend);
       }
+    }else if (msgRcv->CompareID(MESSAGE_CAM_OPEN_WITH_PARAMS) {
+    
+    
     } else if (msgRcv->CompareID(MESSAGE_CAM_CLOSE)) {
       this->cam.Close();
       if (this->cam.IsOpen()) {
@@ -357,6 +360,7 @@ void Tasks::ReceiveFromMonTask(void *arg) {
         printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
         WriteInQueue(&q_messageToMon, msgSend);
       }
+      
     } else if (msgRcv->CompareID(MESSAGE_ROBOT_GO_FORWARD) ||
                msgRcv->CompareID(MESSAGE_ROBOT_GO_BACKWARD) ||
                msgRcv->CompareID(MESSAGE_ROBOT_GO_LEFT) ||
@@ -367,6 +371,8 @@ void Tasks::ReceiveFromMonTask(void *arg) {
       move = msgRcv->GetID();
       rt_mutex_release(&mutex_move);
     }
+
+
   }
   delete (msgRcv); // mus be deleted manually, no consumer
 }
@@ -620,7 +626,7 @@ void Tasks::SendPictures(void *arg) {
 
     if (rs == 1) {
       Img *img = new Img(this->cam.Grab());
-      // MessageImg *msgImg = new MessageImg(MESSAGE_CAM_IMAGE, img);
+      MessageImg *msgImg = new MessageImg(MESSAGE_CAM_IMAGE, img);
 
       printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
       WriteInQueue(&q_messageToMon, msgSend);
@@ -660,3 +666,8 @@ Message *Tasks::CloseCommunicationRobot(Message *msgRcv) {
   }
   return msgRcv;
 }
+
+
+
+
+
