@@ -87,6 +87,10 @@ void Tasks::Init() {
     cerr << "Error mutex create: " << strerror(-err) << endl << flush;
     exit(EXIT_FAILURE);
   }
+  if (err = rt_mutex_create(&mutex_cam, NULL)) {
+    cerr << "Error mutex create: " << strerror(-err) << endl << flush;
+    exit(EXIT_FAILURE);
+  }
   cout << "Mutexes created successfully" << endl << flush;
 
   /**************************************************************************************/
@@ -336,16 +340,28 @@ void Tasks::ReceiveFromMonTask(void *arg) {
       rt_sem_v(&sem_startRobot);
     } else if (msgRcv->CompareID(MESSAGE_CAM_OPEN)) {
 
-      if (this->cam.Open()) {
-        Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
-        printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
-        WriteInQueue(&q_messageToMon, msgSend);
-      } else {
-        Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
-        printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
-        WriteInQueue(&q_messageToMon, msgSend);
+      // cam.Open() opens camera
+      rt_mutex_acquire(&mutex_cam, TM_INFINITE);
+      if (this->cam.IsOpen()) {
+          Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
+          printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
+          WriteInQueue(&q_messageToMon, msgSend);
+      }else {
+        this->cam.Open()
+        if (this->cam.IsOpen()) {
+          Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
+          printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
+          WriteInQueue(&q_messageToMon, msgSend);
+        } else {
+          Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
+          printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
+          printf("Failed to Open Camera");
+          WriteInQueue(&q_messageToMon, msgSend);
+        }
+      rt_mutex_release(&mutex_cam);
       }
     }else if (msgRcv->CompareID(MESSAGE_CAM_CLOSE)) {
+      rt_mutex_acquire(&mutex_cam, TM_INFINITE);
       this->cam.Close();
       if (this->cam.IsOpen()) {
         Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
@@ -357,6 +373,7 @@ void Tasks::ReceiveFromMonTask(void *arg) {
         printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
         WriteInQueue(&q_messageToMon, msgSend);
       }
+      rt_mutex_release(&mutex_cam);
       
     } else if (msgRcv->CompareID(MESSAGE_ROBOT_GO_FORWARD) ||
                msgRcv->CompareID(MESSAGE_ROBOT_GO_BACKWARD) ||
@@ -620,14 +637,19 @@ void Tasks::SendPictures(void *arg) {
     rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
     rs = robotStarted;
     rt_mutex_release(&mutex_robotStarted);
+    rt_mutex_acquire(&mutex_cam, TM_INFINITE);
+    if (this->cam.IsOpen()){
+      if (rs == 1) {
+        Img *img = new Img(this->cam.Grab());
+        MessageImg *msgImg = new MessageImg(MESSAGE_CAM_IMAGE, img);
 
-    if (rs == 1) {
-      Img *img = new Img(this->cam.Grab());
-      MessageImg *msgImg = new MessageImg(MESSAGE_CAM_IMAGE, img);
+        printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgImg->GetID());
+        WriteInQueue(&q_messageToMon, msgImg);
+      }
 
-      printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
-      WriteInQueue(&q_messageToMon, msgImg);
     }
+    rt_mutex_release(&mutex_cam);
+
   }
 }
 /**
