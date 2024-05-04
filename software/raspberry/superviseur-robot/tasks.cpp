@@ -347,7 +347,7 @@ void Tasks::ReceiveFromMonTask(void *arg) {
           printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
           WriteInQueue(&q_messageToMon, msgSend);
       }else {
-        this->cam.Open()
+        this->cam.Open();
         if (this->cam.IsOpen()) {
           Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
           printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
