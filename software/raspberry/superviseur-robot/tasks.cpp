@@ -598,7 +598,7 @@ void Tasks::ReloadWatchDog(void *arg) {
   /**************************************************************************************/
   /* The task starts here */
   /**************************************************************************************/
-  rt_task_set_periodic(NULL, TM_NOW, 600000000);
+  rt_task_set_periodic(NULL, TM_NOW, 1200000000);
   // Modifier pour que ça colle avec le rythme du watchdog
 
   while (1) {
