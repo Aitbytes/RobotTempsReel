@@ -633,6 +633,8 @@ void Tasks::SendPictures(void *arg) {
  * chaque succès Si communication entre robot et superviseur est perdue, ferme
  * le communication
  */
+
+
 Message *Tasks::CloseCommunicationRobot(Message *msgRcv) {
   static int error_count = 0;
   MessageID mesRcvID = msgRcv->GetID();
