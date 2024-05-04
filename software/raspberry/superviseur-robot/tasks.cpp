@@ -609,9 +609,9 @@ void Tasks::ReloadWatchDog(void *arg) {
     rt_mutex_release(&mutex_robotStarted);
 
     if ((rs == 1) && (wd == 1)) {
-      rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
+      rt_mutex_acquire(&mutex_robot, TM_INFINITE);
       Message *msgSend = CloseCommunicationRobot(robot.Write(robot.ReloadWD()));
-      rt_mutex_release(&mutex_robotStarted);
+      rt_mutex_release(&mutex_robot);
       printf("Function %s sending : %d\n", __PRETTY_FUNCTION__, msgSend->GetID());
       WriteInQueue(&q_messageToMon, msgSend);
     }
