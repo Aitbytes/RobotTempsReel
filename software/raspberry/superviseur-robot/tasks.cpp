@@ -394,7 +394,7 @@ void Tasks::ReceiveFromMonTask(void *arg) {
       img_arena = new Img(this->cam.Grab());
 
       Arena arena = img->SearchArena(); // SearchArena()
-      if (arena == NULL) {
+      if (arena.IsEmpty()) {
         printf("Arena not found\n");
         rt_mutex_release(&mutex_arena);
         Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
