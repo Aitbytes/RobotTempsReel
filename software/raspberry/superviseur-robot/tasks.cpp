@@ -389,7 +389,7 @@ void Tasks::ReceiveFromMonTask(void *arg) {
     } else if (msgRcv->CompareID(MESSAGE_CAM_ASK_ARENA)) {
 
       rt_mutex_acquire(&mutex_cam, TM_INFINITE);
-      periodicImages = 0; //Stop periodic mode
+      periodicImages = 0; // Stop periodic mode
       rt_mutex_acquire(&mutex_arena, TM_INFINITE);
       img_arena = new Img(this->cam.Grab());
 
@@ -404,23 +404,29 @@ void Tasks::ReceiveFromMonTask(void *arg) {
         printf("arena found\n");
         img_arena->DrawArena(arena);
 
-        MessageImg *msgImgSend = new MessageImg(MESSAGE_CAM_IMAGE,img_arena);
+        MessageImg *msgImgSend = new MessageImg(MESSAGE_CAM_IMAGE, img_arena);
         WriteInQueue(&q_messageToMon, msgImgSend);
         rt_mutex_release(&mutex_arena);
       }
-      periodicImages = 1; 
       rt_mutex_release(&mutex_cam);
-    // }else if(msgRcv->CompareID(MESSAGE_CAM_ARENA_CONFIRM)){
-    //
-    //   rt_mutex_acquire(&mutex_arena, TM_INFINITE);
-    //   rt_mutex_release(&mutex_arena);
+      }else if(msgRcv->CompareID(MESSAGE_CAM_ARENA_CONFIRM)){
 
-    }else if(msgRcv->CompareID(MESSAGE_CAM_ARENA_INFIRM)){
-      rt_mutex_acquire(&mutex_arena, TM_INFINITE);
-      img_arena = NULL;
-      rt_mutex_release(&mutex_arena);
+        rt_mutex_acquire(&mutex_cam, TM_INFINITE);
+        if (this->cam.IsOpen()) {
+          periodicImages = 1;
+        }
+        rt_mutex_release(&mutex_cam);
+    } else if (msgRcv->CompareID(MESSAGE_CAM_ARENA_INFIRM)) {
+        rt_mutex_acquire(&mutex_arena, TM_INFINITE);
+        img_arena = NULL;
+        rt_mutex_release(&mutex_arena);
 
-    }else if (msgRcv->CompareID(MESSAGE_ROBOT_GO_FORWARD) ||
+        rt_mutex_acquire(&mutex_cam, TM_INFINITE);
+        if (this->cam.IsOpen()) {
+          periodicImages = 1;
+        }
+        rt_mutex_release(&mutex_cam);
+    } else if (msgRcv->CompareID(MESSAGE_ROBOT_GO_FORWARD) ||
                msgRcv->CompareID(MESSAGE_ROBOT_GO_BACKWARD) ||
                msgRcv->CompareID(MESSAGE_ROBOT_GO_LEFT) ||
                msgRcv->CompareID(MESSAGE_ROBOT_GO_RIGHT) ||
@@ -686,7 +692,7 @@ void Tasks::SendPictures(void *arg) {
     rs = robotStarted;
     rt_mutex_release(&mutex_robotStarted);
     rt_mutex_acquire(&mutex_cam, TM_INFINITE);
-      
+
     if (periodicImages && this->cam.IsOpen()) {
       if (rs == 1) {
         Img *img = new Img(this->cam.Grab());
