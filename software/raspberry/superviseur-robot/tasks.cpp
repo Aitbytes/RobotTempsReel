@@ -62,8 +62,6 @@
 void Tasks::Init() {
   int status;
 
-  int isUsingWatchDog;
-
   int err;
 
   this->cam = Camera(captureSize::sm, 25);
@@ -88,6 +86,10 @@ void Tasks::Init() {
     exit(EXIT_FAILURE);
   }
   if (err = rt_mutex_create(&mutex_cam, NULL)) {
+    cerr << "Error mutex create: " << strerror(-err) << endl << flush;
+    exit(EXIT_FAILURE);
+  }
+  if (err = rt_mutex_create(&mutex_arena, NULL)) {
     cerr << "Error mutex create: " << strerror(-err) << endl << flush;
     exit(EXIT_FAILURE);
   }
@@ -344,6 +346,7 @@ void Tasks::ReceiveFromMonTask(void *arg) {
 
       // cam.Open() opens camera
       rt_mutex_acquire(&mutex_cam, TM_INFINITE);
+      periodicImages = 1;
       if (this->cam.IsOpen()) {
         Message *msgSend = new Message(MESSAGE_ANSWER_ACK);
         printf("Function %s sending : %d\n", __PRETTY_FUNCTION__,
@@ -367,6 +370,7 @@ void Tasks::ReceiveFromMonTask(void *arg) {
       }
     } else if (msgRcv->CompareID(MESSAGE_CAM_CLOSE)) {
       rt_mutex_acquire(&mutex_cam, TM_INFINITE);
+      periodicImages = 0;
       this->cam.Close();
       if (this->cam.IsOpen()) {
         Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
@@ -382,7 +386,41 @@ void Tasks::ReceiveFromMonTask(void *arg) {
       }
       rt_mutex_release(&mutex_cam);
 
-    } else if (msgRcv->CompareID(MESSAGE_ROBOT_GO_FORWARD) ||
+    } else if (msgRcv->CompareID(MESSAGE_CAM_ASK_ARENA)) {
+
+      rt_mutex_acquire(&mutex_cam, TM_INFINITE);
+      periodicImages = 0; //Stop periodic mode
+      rt_mutex_acquire(&mutex_arena, TM_INFINITE);
+      img_arena = new Img(this->cam.Grab());
+
+      Arena arena = img->SearchArena(); // SearchArena()
+      if (arena == NULL) {
+        printf("Arena not found\n");
+        rt_mutex_release(&mutex_arena);
+        Message *msgSend = new Message(MESSAGE_ANSWER_NACK);
+        WriteInQueue(&q_messageToMon, msgSend);
+
+      } else {
+        printf("arena found\n");
+        img_arena->DrawArena(arena);
+
+        MessageImg *msgImgSend = new MessageImg(MESSAGE_CAM_IMAGE,img_arena);
+        WriteInQueue(&q_messageToMon, msgImgSend);
+        rt_mutex_release(&mutex_arena);
+      }
+      periodicImages = 1; 
+      rt_mutex_release(&mutex_cam);
+    // }else if(msgRcv->CompareID(MESSAGE_CAM_ARENA_CONFIRM)){
+    //
+    //   rt_mutex_acquire(&mutex_arena, TM_INFINITE);
+    //   rt_mutex_release(&mutex_arena);
+
+    }else if(msgRcv->CompareID(MESSAGE_CAM_ARENA_INFIRM)){
+      rt_mutex_acquire(&mutex_arena, TM_INFINITE);
+      img_arena = NULL;
+      rt_mutex_release(&mutex_arena);
+
+    }else if (msgRcv->CompareID(MESSAGE_ROBOT_GO_FORWARD) ||
                msgRcv->CompareID(MESSAGE_ROBOT_GO_BACKWARD) ||
                msgRcv->CompareID(MESSAGE_ROBOT_GO_LEFT) ||
                msgRcv->CompareID(MESSAGE_ROBOT_GO_RIGHT) ||
@@ -500,7 +538,7 @@ void Tasks::MoveTask(void *arg) {
   /**************************************************************************************/
   /* The task starts here */
   /**************************************************************************************/
-  rt_task_set_periodic(NULL, TM_NOW, 100000000);
+  rt_task_set_periodic(NULL, TM_NOW, 500000000);
 
   while (1) {
     rt_task_wait_period(NULL);
@@ -648,7 +686,8 @@ void Tasks::SendPictures(void *arg) {
     rs = robotStarted;
     rt_mutex_release(&mutex_robotStarted);
     rt_mutex_acquire(&mutex_cam, TM_INFINITE);
-    if (this->cam.IsOpen()) {
+      
+    if (periodicImages && this->cam.IsOpen()) {
       if (rs == 1) {
         Img *img = new Img(this->cam.Grab());
         MessageImg *msgImg = new MessageImg(MESSAGE_CAM_IMAGE, img);

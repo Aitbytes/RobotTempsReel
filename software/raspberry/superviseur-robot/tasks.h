@@ -69,6 +69,8 @@ private:
     int move = MESSAGE_ROBOT_STOP;
     int isUsingWatchDog = 0;
     
+    int periodicImages = 0 ;
+    Img* img_arena;
     /**********************************************************************/
     /* Tasks                                                              */
     /**********************************************************************/
@@ -90,6 +92,7 @@ private:
     RT_MUTEX mutex_robotStarted;
     RT_MUTEX mutex_move;
     RT_MUTEX mutex_cam;
+    RT_MUTEX mutex_arena;
 
     /**********************************************************************/
     /* Semaphores                                                         */
